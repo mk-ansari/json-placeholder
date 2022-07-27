@@ -3,13 +3,9 @@ import { Stack, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const AddUser = ({ addUser, handleSubmit, inputs, handleInput, loading }) => {
+const EditUser = ({editUser, inputs, loading }) => {
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      username: "",
-      email: "",
-    },
+    initialValues: inputs,
     validationSchema: Yup.object({
       name: Yup.string()
         .max(10, "Name must be less or equal 10 Characters.")
@@ -22,7 +18,7 @@ const AddUser = ({ addUser, handleSubmit, inputs, handleInput, loading }) => {
         .required("Email is required."),
     }),
     onSubmit: (values) => {
-      addUser(values);
+      editUser(values);
       // console.log("Form Submitted", values);
       formik.resetForm({ values: "" });
     },
@@ -63,17 +59,17 @@ const AddUser = ({ addUser, handleSubmit, inputs, handleInput, loading }) => {
         helperText={formik.touched.email && formik.errors.email}
         label="Email"
       />
-      {loading.status && loading.isLoading === "ADD" ? (
+      {loading.status && loading.isLoading === "EDIT" ? (
         <Button disabled variant="contained" sx={{ mt: 3, mb: 2 }}>
-          Adding..
+          Updating...
         </Button>
       ) : (
         <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-          Add
+          Update
         </Button>
       )}
     </Stack>
   );
 };
 
-export default AddUser;
+export default EditUser;
